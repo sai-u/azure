@@ -1,4 +1,4 @@
-FROM aemo-dockerhub-remote.jfrog.io/node:12.18.1-alpine3.12
+FROM divija-docker.jfrog.io/node:12.18.1-alpine3.12
 
 LABEL maintainer="Azure App Services Container Images <appsvc-images@microsoft.com>"
 

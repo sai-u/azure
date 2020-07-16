@@ -14,13 +14,13 @@ stages:
         inputs:
           command: 'build'
           Dockerfile: '**/Dockerfile'
-          arguments: '-t aemo-sampleapi-docker-build.jfrog.io/testapp:$(Build.BuildId)'
+          arguments: '-t divija-docker.jfrog.io/testapp:$(Build.BuildId)'
       - task: ArtifactoryDocker@1
         inputs:
           command: 'push'
           artifactoryService: 'sampleapi-pipeline-service'
           targetRepo: 'sampleapi-docker-build'
-          imageName: 'aemo-sampleapi-docker-build.jfrog.io/testapp:$(Build.BuildId)'
+          imageName: 'divija-docker.jfrog.io/testapp:$(Build.BuildId)'
           collectBuildInfo: true
           buildName: '$(Build.DefinitionName)'
           buildNumber: '$(Build.BuildNumber)'

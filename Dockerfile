@@ -1,4 +1,5 @@
 FROM divija-docker.jfrog.io/node:12.18.1-alpine3.12
+FROM divija-docker.jfrog.io/busybox:latest
 
 
 LABEL maintainer="Azure App Services Containe rmages <appsvc-images@microsoft.com>"

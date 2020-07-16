@@ -14,25 +14,25 @@ stages:
         inputs:
           command: 'build'
           Dockerfile: '**/Dockerfile'
-          arguments: '-t aemo-sampleapi-docker-build.jfrog.io/testapp:$(Build.BuildId)'
+          arguments: '-t divija-docker.jfrog.io/testapp:$(Build.BuildId)'
       - task: ArtifactoryDocker@1
         inputs:
           command: 'push'
-          artifactoryService: 'sampleapi-pipeline-service'
-          targetRepo: 'sampleapi-docker-build'
-          imageName: 'aemo-sampleapi-docker-build.jfrog.io/testapp:$(Build.BuildId)'
+          artifactoryService: 'divija-art'
+          targetRepo: 'docker'
+          imageName: 'divija-docker.jfrog.io/testapp:$(Build.BuildId)'
           collectBuildInfo: true
           buildName: '$(Build.DefinitionName)'
           buildNumber: '$(Build.BuildNumber)'
           includeEnvVars: true
       - task: ArtifactoryPublishBuildInfo@1
         inputs:
-          artifactoryService: 'sampleapi-pipeline-service'
+          artifactoryService: 'divija-art'
           buildName: '$(Build.DefinitionName)'
           buildNumber: '$(Build.BuildNumber)'
       - task: ArtifactoryXrayScan@1
         inputs:
-          artifactoryService: 'sampleapi-pipeline-service'
+          artifactoryService: 'divija-art'
           buildName: '$(Build.DefinitionName)'
           buildNumber: '$(Build.BuildNumber)'
           allowFailBuild: false

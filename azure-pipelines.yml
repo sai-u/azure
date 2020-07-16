@@ -5,11 +5,11 @@ stages:
   - job: PackagePublish
     displayName: 'Package & Publish'
     steps:
-      - task: Docker@2
-        displayName: 'Login to Artifactory - Dockerhub remote'
-        inputs:
-          command: login
-          containerRegistry: sampleapi-dockerhub-remote-service
+      # - task: Docker@2
+      #   displayName: 'Login to Artifactory - Dockerhub remote'
+      #   inputs:
+      #     command: login
+      #     containerRegistry: sampleapi-dockerhub-remote-service
       - task: Docker@2
         inputs:
           command: 'build'
@@ -18,8 +18,8 @@ stages:
       - task: ArtifactoryDocker@1
         inputs:
           command: 'push'
-          artifactoryService: 'sampleapi-pipeline-service'
-          targetRepo: 'sampleapi-docker-build'
+          artifactoryService: 'divija-art'
+          targetRepo: 'docker'
           imageName: 'divija-docker.jfrog.io/testapp:$(Build.BuildId)'
           collectBuildInfo: true
           buildName: '$(Build.DefinitionName)'
@@ -27,12 +27,12 @@ stages:
           includeEnvVars: true
       - task: ArtifactoryPublishBuildInfo@1
         inputs:
-          artifactoryService: 'sampleapi-pipeline-service'
+          artifactoryService: 'divija-art'
           buildName: '$(Build.DefinitionName)'
           buildNumber: '$(Build.BuildNumber)'
       - task: ArtifactoryXrayScan@1
         inputs:
-          artifactoryService: 'sampleapi-pipeline-service'
+          artifactoryService: 'divija-art'
           buildName: '$(Build.DefinitionName)'
           buildNumber: '$(Build.BuildNumber)'
           allowFailBuild: false

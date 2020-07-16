@@ -9,5 +9,5 @@ EXPOSE 8080
 
 # Create app directory
 WORKDIR /app
-
+COPY . /app
 RUN head -c 1000000 </dev/urandom > /app/random

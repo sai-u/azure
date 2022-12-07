@@ -1,0 +1,59 @@
+stages:
+- stage: PackagePublish
+  displayName: 'Package & Publish'
+  jobs:
+  - job: PackagePublish
+    displayName: 'Package & Publish'
+    steps:
+      # - task: Docker@2
+      #   displayName: 'Login to Artifactory - Dockerhub remote'
+      #   inputs:
+      #     command: login
+      #     containerRegistry: sampleapi-dockerhub-remote-service
+      
+      - task: Docker@2
+        inputs:
+          command: 'build'
+          Dockerfile: '**/Dockerfile'
+          arguments: '-t gpgtest.jfrog.io/docker-xray/clo:3.0'
+      - task: Docker@2
+        inputs:
+          command: 'build'
+          Dockerfile: '**/Dockerfile'
+          arguments: '-t gpgtest.jfrog.io/docker-xray/clo:latest'
+      - task: ArtifactoryDocker@1
+        inputs:
+          command: 'push'
+          artifactoryService: 'gpg'
+          targetRepo: 'docker-xray'
+          imageName: 'gpgtest.jfrog.io/docker-xray/clo:3.0'
+          collectBuildInfo: true
+          buildName: 'cleanup'
+          buildNumber: '2.4'
+          includeEnvVars: true
+      - task: ArtifactoryDocker@1
+        inputs:
+          command: 'push'
+          artifactoryService: 'gpg'
+          targetRepo: 'docker-xray'
+          imageName: 'gpgtest.jfrog.io/docker-xray/clo:latest'
+          collectBuildInfo: true
+          buildName: 'cleanup'
+          buildNumber: '2.4'
+          includeEnvVars: true
+      - task: ArtifactoryPublishBuildInfo@1
+        inputs:
+          artifactoryService: 'gpg'
+          buildName: 'cleanup'
+          buildNumber: '2.4'
+      - task: ArtifactoryBuildPromotion@1
+        inputs:
+          artifactoryService: 'gpg'
+          buildName: 'cleanup'
+          buildNumber: '2.4'
+          targetRepo: 'pro-2-docker-local'
+          status: 'Released'
+          sourceRepo: 'docker-xray'
+          includeDependencies: false
+          copy: false
+          dryRun: false

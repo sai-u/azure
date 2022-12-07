@@ -15,25 +15,45 @@ stages:
         inputs:
           command: 'build'
           Dockerfile: '**/Dockerfile'
-          arguments: '-t aemo-sampleapi-docker-build.jfrog.io/testapp:$(Build.BuildId)'
+          arguments: '-t gpgtest.jfrog.io/docker-xray/clo:3.0'
+      - task: Docker@2
+        inputs:
+          command: 'build'
+          Dockerfile: '**/Dockerfile'
+          arguments: '-t gpgtest.jfrog.io/docker-xray/clo:latest'
       - task: ArtifactoryDocker@1
         inputs:
           command: 'push'
-          artifactoryService: 'sampleapi-pipeline-service'
-          targetRepo: 'sampleapi-docker-build'
-          imageName: 'aemo-sampleapi-docker-build.jfrog.io/testapp:$(Build.BuildId)'
+          artifactoryService: 'gpg'
+          targetRepo: 'docker-xray'
+          imageName: 'gpgtest.jfrog.io/docker-xray/clo:3.0'
           collectBuildInfo: true
-          buildName: '$(Build.DefinitionName)'
-          buildNumber: '$(Build.BuildNumber)'
+          buildName: 'cleanup'
+          buildNumber: '2.4'
+          includeEnvVars: true
+      - task: ArtifactoryDocker@1
+        inputs:
+          command: 'push'
+          artifactoryService: 'gpg'
+          targetRepo: 'docker-xray'
+          imageName: 'gpgtest.jfrog.io/docker-xray/clo:latest'
+          collectBuildInfo: true
+          buildName: 'cleanup'
+          buildNumber: '2.4'
           includeEnvVars: true
       - task: ArtifactoryPublishBuildInfo@1
         inputs:
-          artifactoryService: 'sampleapi-pipeline-service'
-          buildName: '$(Build.DefinitionName)'
-          buildNumber: '$(Build.BuildNumber)'
-      - task: ArtifactoryXrayScan@1
+          artifactoryService: 'gpg'
+          buildName: 'cleanup'
+          buildNumber: '2.4'
+      - task: ArtifactoryBuildPromotion@1
         inputs:
-          artifactoryService: 'sampleapi-pipeline-service'
-          buildName: '$(Build.DefinitionName)'
-          buildNumber: '$(Build.BuildNumber)'
-          allowFailBuild: false
+          artifactoryService: 'gpg'
+          buildName: 'cleanup'
+          buildNumber: '2.4'
+          targetRepo: 'pro-2-docker-local'
+          status: 'Released'
+          sourceRepo: 'docker-xray'
+          includeDependencies: false
+          copy: false
+          dryRun: false

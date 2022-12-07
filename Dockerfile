@@ -1,4 +1,4 @@
 FROM alpine:3.14
-COPY somefile.txt ./
+COPY Dockerfile.bkp ./
 COPY index.html ./ 
 RUN cat /somefile.txt

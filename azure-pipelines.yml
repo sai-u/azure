@@ -30,10 +30,10 @@ stages:
           command: 'push'
           artifactoryService: 'coles'
           targetRepo: 'jfrog-source'
-          imageName: 'colesgroup-jfrog-source.jfrog.io/share/python-pipeline:20221201.4'
+          imageName: 'colesgroup-jfrog-source.jfrog.io/share/python-pipeline:20221201.5'
           collectBuildInfo: true
           buildName: 'cleanup'
-          buildNumber: '2.4'
+          buildNumber: '2.5'
           includeEnvVars: true
       - task: ArtifactoryDocker@1
         inputs:
@@ -43,18 +43,18 @@ stages:
           imageName: 'colesgroup-jfrog-source.jfrog.io/share/python-pipeline:latest'
           collectBuildInfo: true
           buildName: 'cleanup'
-          buildNumber: '2.4'
+          buildNumber: '2.5'
           includeEnvVars: true
       - task: ArtifactoryPublishBuildInfo@1
         inputs:
           artifactoryService: 'coles'
           buildName: 'cleanup'
-          buildNumber: '2.4'
+          buildNumber: '2.5'
       - task: ArtifactoryBuildPromotion@1
         inputs:
           artifactoryService: 'coles'
           buildName: 'cleanup'
-          buildNumber: '2.4'
+          buildNumber: '2.5'
           targetRepo: 'jfrog-test'
           status: 'Released'
           sourceRepo: 'jfrog-source'

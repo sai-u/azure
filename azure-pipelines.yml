@@ -15,7 +15,7 @@ stages:
         inputs:
           command: 'build'
           Dockerfile: '**/Dockerfile'
-          arguments: '-t colesgroup-jfrog-source.jfrog.io/share/python-pipeline'
+          repository: 'colesgroup-jfrog-source.jfrog.io/share/python-pipeline'
           tags: |
             20221201.5
             latest

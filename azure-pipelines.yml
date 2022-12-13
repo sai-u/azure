@@ -15,12 +15,16 @@ stages:
         inputs:
           command: 'build'
           Dockerfile: '**/Dockerfile'
-          arguments: '-t colesgroup-jfrog-source.jfrog.io/share/python-pipeline:20221201.4'
-      - task: Docker@2
-        inputs:
-          command: 'build'
-          Dockerfile: '**/Dockerfile'
-          arguments: '-t colesgroup-jfrog-source.jfrog.io/share/python-pipeline:latest'
+          arguments: '-t colesgroup-jfrog-source.jfrog.io/share/python-pipeline'
+          tags: |
+            20221201.5
+            latest
+            
+#       - task: Docker@2
+#         inputs:
+#           command: 'build'
+#           Dockerfile: '**/Dockerfile'
+#           arguments: '-t colesgroup-jfrog-source.jfrog.io/share/python-pipeline:latest'
       - task: ArtifactoryDocker@1
         inputs:
           command: 'push'
